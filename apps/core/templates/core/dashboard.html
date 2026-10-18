@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Welcome, {{ user.first_name|default:user.username }}</h1>
+{% if nav_tools %}
+  <div class="tiles">
+    {% for tool in nav_tools %}
+      <a class="tile" href="{{ tool.url }}">
+        <span class="tile-icon" aria-hidden="true">{{ tool.icon }}</span>
+        <span class="tile-name">{{ tool.name }}</span>
+        <span class="tile-desc">{{ tool.description }}</span>
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="muted">No tools are available to your account yet. Ask an administrator to assign you a role.</p>
+{% endif %}
+{% endblock %}

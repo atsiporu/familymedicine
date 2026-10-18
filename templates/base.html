@@ -1,0 +1,35 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Practice Portal{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'core/portal.css' %}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{% url 'dashboard' %}">Practice Portal</a>
+    {% if user.is_authenticated %}
+      <nav class="nav">
+        {% for tool in nav_tools %}
+          <a href="{{ tool.url }}" {% if request.path == tool.url %}aria-current="page"{% endif %}>{{ tool.name }}</a>
+        {% endfor %}
+        {% if user.is_staff %}<a href="{% url 'admin:index' %}">Admin</a>{% endif %}
+      </nav>
+      <form class="userbox" method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <span>{{ user.get_full_name|default:user.username }}</span>
+        <button type="submit" class="link-button">Sign out</button>
+      </form>
+    {% endif %}
+  </header>
+  <main class="container">
+    {% if messages %}
+      <ul class="messages">{% for m in messages %}<li class="{{ m.tags }}">{{ m }}</li>{% endfor %}</ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

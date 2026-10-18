@@ -1,0 +1,31 @@
+# Python / tooling
+__pycache__/
+*.py[cod]
+.venv/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+staticfiles/
+
+# Secrets and local config
+.env
+.env.*
+!.env.example
+
+# NEVER commit data. Real patient data must not enter this repo (see CLAUDE.md).
+data/
+media/
+uploads/
+backups/
+exports/
+*.sql
+*.sql.gz
+*.dump
+*.backup
+*.sqlite3
+*.db
+*.csv
+*.xlsx
+*.xls
+*.hl7
+*.log

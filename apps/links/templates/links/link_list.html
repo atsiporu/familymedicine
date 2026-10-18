@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Quick Links · Practice Portal{% endblock %}
+{% block content %}
+<h1>Quick Links</h1>
+{% for category, links in groups %}
+  <section class="link-group">
+    <h2>{{ category }}</h2>
+    <div class="tiles">
+      {% for link in links %}
+        <a class="tile" href="{{ link.url }}" {% if link.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+          <span class="tile-name">{{ link.title }}</span>
+          {% if link.description %}<span class="tile-desc">{{ link.description }}</span>{% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+{% empty %}
+  <p class="muted">No links yet.{% if perms.links.add_link %} <a href="{% url 'admin:links_link_add' %}">Add one</a>.{% endif %}</p>
+{% endfor %}
+{% if groups and perms.links.change_link %}
+  <p><a href="{% url 'admin:links_link_changelist' %}">Manage links</a></p>
+{% endif %}
+{% endblock %}

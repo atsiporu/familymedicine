@@ -1,0 +1,55 @@
+[project]
+name = "portal"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = [
+    "dj-database-url>=3.1.2",
+    "django>=6.1.2",
+    "django-stubs-ext>=6.1.2",
+    "httpx>=0.28.1",
+    "psycopg[binary]>=3.3.6",
+    "pydantic>=2.14.1",
+    "uvicorn>=0.54.0",
+    "whitenoise>=6.12.0",
+]
+
+[dependency-groups]
+dev = [
+    "django-stubs>=6.1.2",
+    "mypy>=2.4.0",
+    "pytest>=9.1.1",
+    "pytest-asyncio>=1.4.0",
+    "pytest-django>=4.14.0",
+    "ruff>=0.17.1",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+extend-exclude = ["*/migrations/*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "DJ", "RUF"]
+# Django declares Meta/admin options as mutable class attributes by design.
+ignore = ["RUF012"]
+
+[tool.mypy]
+strict = true
+plugins = ["mypy_django_plugin.main"]
+exclude = ["/migrations/", "^staticfiles/"]
+
+[[tool.mypy.overrides]]
+module = ["dj_database_url"]
+ignore_missing_imports = true
+
+[tool.django-stubs]
+django_settings_module = "portal.settings"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "portal.settings"
+asyncio_mode = "auto"
+python_files = ["test_*.py"]
+filterwarnings = ["ignore:No directory at:UserWarning"]
